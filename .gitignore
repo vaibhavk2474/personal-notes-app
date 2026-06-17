@@ -1,0 +1,25 @@
+# Dependencies
+frontend/node_modules
+backend/node_modules
+
+# Logs
+*.log
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Build
+dist
+build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+
+# Docker
+docker-data/

@@ -1,4 +1,8 @@
-import { Box } from "@mui/material";
+import { Box, Drawer } from "@mui/material";
+
+import useThemeContext from "../../context/useThemeContext";
+
+import { useResponsive } from "../../hooks/useResponsive";
 
 interface Props {
 	sidebar: React.ReactNode;
@@ -7,6 +11,10 @@ interface Props {
 }
 
 const MainLayout = ({ sidebar, header, children }: Props) => {
+	const { sidebarOpen, setSidebarOpen } = useThemeContext();
+
+	const { isMobile } = useResponsive();
+
 	return (
 		<Box
 			sx={{
@@ -15,16 +23,40 @@ const MainLayout = ({ sidebar, header, children }: Props) => {
 				bgcolor: "background.default",
 			}}
 		>
-			<Box
-				sx={{
-					width: 300,
-					borderRight: 1,
-					borderColor: "divider",
-					bgcolor: "background.paper",
-				}}
-			>
-				{sidebar}
-			</Box>
+			{!isMobile && (
+				<Box
+					sx={{
+						width: "100%",
+						maxWidth: 300,
+						borderRight: 1,
+						borderColor: "divider",
+						bgcolor: "background.paper",
+					}}
+				>
+					{sidebar}
+				</Box>
+			)}
+
+			{isMobile && (
+				<Drawer
+					open={sidebarOpen}
+					onClose={() => setSidebarOpen(false)}
+					sx={{
+						"& .MuiDrawer-paper": {
+							borderRadius: 0,
+						},
+					}}
+				>
+					<Box
+						sx={{
+							width: 250,
+							height: "100%",
+						}}
+					>
+						{sidebar}
+					</Box>
+				</Drawer>
+			)}
 
 			<Box
 				sx={{
@@ -47,7 +79,11 @@ const MainLayout = ({ sidebar, header, children }: Props) => {
 				<Box
 					sx={{
 						flex: 1,
-						p: 3,
+						p: {
+							xs: 2,
+							md: 4,
+						},
+						overflow: "auto",
 					}}
 				>
 					{children}

@@ -27,13 +27,31 @@ export const sidebarStyles: Record<string, SxProps<Theme>> = {
     },
 
     noteItem: {
-        cursor: "pointer",
         borderRadius: 2,
-        px: 1.5,
-        py: 1,
 
-        "&:hover": {
-            bgcolor: "action.hover",
+        "&.Mui-selected": {
+            backgroundColor:
+                "action.selected",
+        },
+
+        "&.Mui-selected:hover": {
+            backgroundColor:
+                "action.selected",
         },
     },
+
+    deleteButton: {
+        opacity: 0,
+
+        ".MuiListItemButton-root:hover &": {
+            opacity: 1,
+        },
+    },
+
+    noNotes: {
+        fontStyle: 'italic',
+        fontSize: '14px',
+        opacity: 0.6,
+        textAlign: 'center',
+    }
 };

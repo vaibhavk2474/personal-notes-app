@@ -1,5 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import type { Note } from "../types/notes";
+import {
+    getNotes,
+    saveNotes,
+} from "../utils/storage";
 
 const INITIAL_NOTES: Note[] = [
     {
@@ -19,21 +24,96 @@ const INITIAL_NOTES: Note[] = [
     {
         id: "3",
         title: "Docker Notes",
-        content: "Docker helps standardize development environments.",
+        content:
+            "Docker helps standardize development environments.",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     },
 ];
 
 export const useNotes = () => {
-    const [notes, setNotes] = useState<Note[]>(INITIAL_NOTES);
+    const initialNotes = getNotes().length
+        ? getNotes()
+        : [];
 
-    const [selectedNoteId, setSelectedNoteId] = useState<string>(
-        INITIAL_NOTES[0]?.id ?? "",
-    );
+    const [notes, setNotes] =
+        useState<Note[]>(initialNotes);
+
+    const [selectedNoteId, setSelectedNoteId] =
+        useState<string>(() => {
+            return initialNotes[0]?.id ?? "";
+        });
+
+    const createNote = () => {
+        const newNote: Note = {
+            id: crypto.randomUUID(),
+
+            title: "Untitled",
+
+            content: "",
+
+            createdAt:
+                new Date().toISOString(),
+
+            updatedAt:
+                new Date().toISOString(),
+        };
+
+        setNotes((prev) => [
+            newNote,
+            ...prev,
+        ]);
+
+        setSelectedNoteId(
+            newNote.id,
+        );
+    };
+
+    const updateNote = (
+        id: string,
+        data: Partial<Note>,
+    ) => {
+        setNotes((prev) =>
+            prev.map((note) =>
+                note.id === id
+                    ? {
+                        ...note,
+                        ...data,
+                        updatedAt:
+                            new Date().toISOString(),
+                    }
+                    : note,
+            ),
+        );
+    };
+
+    const deleteNote = (id: string) => {
+        const filteredNotes =
+            notes.filter(
+                (note) => note.id !== id,
+            );
+
+        setNotes(filteredNotes);
+
+        if (
+            selectedNoteId === id
+        ) {
+            setSelectedNoteId(
+                filteredNotes[0]?.id ?? "",
+            );
+        }
+    };
+
+    useEffect(() => {
+        saveNotes(notes);
+    }, [notes]);
 
     const selectedNote =
-        notes.find((note) => note.id === selectedNoteId) ?? null;
+        notes.find(
+            (note) =>
+                note.id ===
+                selectedNoteId,
+        ) ?? null;
 
     return {
         notes,
@@ -42,5 +122,9 @@ export const useNotes = () => {
         selectedNote,
         selectedNoteId,
         setSelectedNoteId,
+
+        createNote,
+        updateNote,
+        deleteNote,
     };
 };

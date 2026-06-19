@@ -3,10 +3,10 @@ import { Box, Button, List, ListItemButton, ListItemText, TextField, Typography 
 import AddIcon from "@mui/icons-material/Add";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
-import { MOCK_NOTES } from "./constants";
 import { sidebarStyles } from "./styles";
+import type { SidebarProps } from "./types";
 
-const Sidebar = () => {
+const Sidebar = ({ notes, selectedNoteId, onSelectNote }: SidebarProps) => {
 	return (
 		<Box sx={sidebarStyles.container}>
 			<Box sx={sidebarStyles.header}>
@@ -28,8 +28,8 @@ const Sidebar = () => {
 					</Typography>
 
 					<List disablePadding>
-						{MOCK_NOTES.map((note) => (
-							<ListItemButton key={note.id} sx={sidebarStyles.noteItem}>
+						{notes.map((note) => (
+							<ListItemButton key={note.id} selected={selectedNoteId === note.id} onClick={() => onSelectNote(note.id)} sx={sidebarStyles.noteItem}>
 								<MenuBookIcon fontSize="small" sx={{ mr: 1 }} />
 
 								<ListItemText primary={note.title} />

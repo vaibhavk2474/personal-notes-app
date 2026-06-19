@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
-import { themeContext, type ThemeMode } from "./themeContext";
+
 import type { ReactNode } from "react";
+
+import { themeContext, type ThemeMode } from "./themeContext";
 
 interface ThemeProviderProps {
 	children: ReactNode;
@@ -12,6 +14,8 @@ export const ThemeContextProvider = ({ children }: ThemeProviderProps) => {
 
 		return savedTheme === "dark" ? "dark" : "light";
 	});
+
+	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	const toggleTheme = () => {
 		setMode((prevMode) => {
@@ -26,9 +30,14 @@ export const ThemeContextProvider = ({ children }: ThemeProviderProps) => {
 	const value = useMemo(
 		() => ({
 			mode,
+
 			toggleTheme,
+
+			sidebarOpen,
+
+			setSidebarOpen,
 		}),
-		[mode],
+		[mode, sidebarOpen],
 	);
 
 	return <themeContext.Provider value={value}>{children}</themeContext.Provider>;

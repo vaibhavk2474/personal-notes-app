@@ -2,7 +2,21 @@ import type { Note } from "../../types/notes";
 
 export interface SidebarProps {
     notes: Note[];
+
     selectedNoteId: string;
 
-    onSelectNote: (id: string) => void;
+    search: string;
+
+    onSearchChange: (
+        value: string,
+    ) => void;
+
+    onSelectNote: (
+        id: string,
+    ) => void;
+
+    onCreateNote: () => void;
+    onDeleteNote: (
+        id: string,
+    ) => void;
 }

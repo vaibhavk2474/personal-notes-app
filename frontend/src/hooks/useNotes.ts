@@ -6,30 +6,31 @@ import {
     saveNotes,
 } from "../utils/storage";
 
-const INITIAL_NOTES: Note[] = [
-    {
-        id: "1",
-        title: "Getting Started",
-        content: "Welcome to PersonalNotes.",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-    },
-    {
-        id: "2",
-        title: "React Learning",
-        content: "Learn React and TypeScript.",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-    },
-    {
-        id: "3",
-        title: "Docker Notes",
-        content:
-            "Docker helps standardize development environments.",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-    },
-];
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// const INITIAL_NOTES: Note[] = [
+//     {
+//         id: "1",
+//         title: "Getting Started",
+//         content: "Welcome to PersonalNotes.",
+//         createdAt: new Date().toISOString(),
+//         updatedAt: new Date().toISOString(),
+//     },
+//     {
+//         id: "2",
+//         title: "React Learning",
+//         content: "Learn React and TypeScript.",
+//         createdAt: new Date().toISOString(),
+//         updatedAt: new Date().toISOString(),
+//     },
+//     {
+//         id: "3",
+//         title: "Docker Notes",
+//         content:
+//             "Docker helps standardize development environments.",
+//         createdAt: new Date().toISOString(),
+//         updatedAt: new Date().toISOString(),
+//     },
+// ];
 
 export const useNotes = () => {
     const initialNotes = getNotes().length

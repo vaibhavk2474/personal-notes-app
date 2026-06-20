@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 
 import type { ReactNode } from "react";
 
-import { themeContext, type ThemeMode } from "./themeContext";
+import type { ThemeMode } from "./themeContext";
+import { themeContext } from "./themeContext";
 
 interface ThemeProviderProps {
 	children: ReactNode;

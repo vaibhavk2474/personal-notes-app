@@ -1,6 +1,6 @@
 import { Box, Drawer } from "@mui/material";
 
-import useThemeContext from "../../context/useThemeContext";
+import useThemeContext from "../../context/theme/useThemeContext";
 
 import { useResponsive } from "../../hooks/useResponsive";
 

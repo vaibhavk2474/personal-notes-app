@@ -2,6 +2,7 @@ import { Box, InputBase, Typography } from "@mui/material";
 
 import type { EditorProps } from "./types";
 import { editorStyles } from "./styles";
+import { formatDate } from "../../utils/date";
 
 const Editor = ({ note, onUpdateNote }: EditorProps) => {
 	if (!note) {
@@ -21,7 +22,15 @@ const Editor = ({ note, onUpdateNote }: EditorProps) => {
 					})
 				}
 			/>
-
+			<Typography
+				variant="body2"
+				color="text.secondary"
+				sx={{
+					mb: 3,
+				}}
+			>
+				Last edited {formatDate(note.updatedAt)}
+			</Typography>
 			<InputBase
 				fullWidth
 				multiline

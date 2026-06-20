@@ -6,8 +6,13 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 import { sidebarStyles } from "./styles";
 import type { SidebarProps } from "./types";
+import useThemeContext from "../../context/theme/useThemeContext";
+import { useResponsive } from "../../hooks/useResponsive";
 
 const Sidebar = ({ notes, selectedNoteId, onSelectNote, search, onSearchChange, onCreateNote, onDeleteNote }: SidebarProps) => {
+	const { setSidebarOpen } = useThemeContext();
+
+	const { isMobile } = useResponsive();
 	return (
 		<Box sx={sidebarStyles.container}>
 			<Box sx={sidebarStyles.header}>
@@ -39,7 +44,17 @@ const Sidebar = ({ notes, selectedNoteId, onSelectNote, search, onSearchChange, 
 					{notes.length !== 0 && (
 						<List disablePadding>
 							{notes.map((note) => (
-								<ListItemButton key={note.id} selected={selectedNoteId === note.id} onClick={() => onSelectNote(note.id)} sx={sidebarStyles.noteItem}>
+								<ListItemButton
+									key={note.id}
+									selected={selectedNoteId === note.id}
+									onClick={() => {
+										onSelectNote(note.id);
+										if (isMobile) {
+											setSidebarOpen(false);
+										}
+									}}
+									sx={sidebarStyles.noteItem}
+								>
 									<MenuBookIcon fontSize="small" sx={{ mr: 1 }} />
 
 									<ListItemText primary={note.title} />

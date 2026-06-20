@@ -1,5 +1,7 @@
-import useThemeContext from "../context/useThemeContext";
+import useThemeContext from "../context/theme/useThemeContext";
 
 export const useThemeMode = () => {
-    return useThemeContext();
+    const { mode, toggleTheme } = useThemeContext();
+
+    return { mode, toggleTheme };
 };

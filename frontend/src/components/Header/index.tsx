@@ -8,11 +8,10 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 
 import { useThemeMode } from "../../hooks/useThemeMode";
 
-import useThemeContext from "../../context/useThemeContext";
-
 import { useResponsive } from "../../hooks/useResponsive";
 
 import { headerStyles } from "./styles";
+import useThemeContext from "../../context/theme/useThemeContext";
 
 const Header = () => {
 	const { mode, toggleTheme } = useThemeMode();

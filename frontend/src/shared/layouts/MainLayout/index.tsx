@@ -1,8 +1,9 @@
 import { Box, Drawer } from "@mui/material";
 
-import useThemeContext from "../../context/theme/useThemeContext";
+import useThemeContext from "../../../context/theme/useThemeContext";
 
 import { useResponsive } from "../../hooks/useResponsive";
+import { designTokens } from "../../../theme";
 
 interface Props {
 	sidebar: React.ReactNode;
@@ -27,7 +28,7 @@ const MainLayout = ({ sidebar, header, children }: Props) => {
 				<Box
 					sx={{
 						width: "100%",
-						maxWidth: 300,
+						maxWidth: designTokens.layout.sidebarWidth,
 						borderRight: 1,
 						borderColor: "divider",
 						bgcolor: "background.paper",
@@ -49,7 +50,7 @@ const MainLayout = ({ sidebar, header, children }: Props) => {
 				>
 					<Box
 						sx={{
-							width: 250,
+						width: designTokens.layout.mobileSidebarWidth,
 							height: "100%",
 						}}
 					>
@@ -67,7 +68,7 @@ const MainLayout = ({ sidebar, header, children }: Props) => {
 			>
 				<Box
 					sx={{
-						height: 64,
+						height: designTokens.layout.headerHeight,
 						borderBottom: 1,
 						borderColor: "divider",
 						bgcolor: "background.paper",

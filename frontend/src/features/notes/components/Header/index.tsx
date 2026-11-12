@@ -6,12 +6,12 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 
-import { useThemeMode } from "../../hooks/useThemeMode";
+import { useThemeMode } from "../../../../context/theme/useThemeMode";
 
-import { useResponsive } from "../../hooks/useResponsive";
+import { useResponsive } from "../../../../shared/hooks/useResponsive";
 
 import { headerStyles } from "./styles";
-import useThemeContext from "../../context/theme/useThemeContext";
+import useThemeContext from "../../../../context/theme/useThemeContext";
 
 const Header = () => {
 	const { mode, toggleTheme } = useThemeMode();

@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 
 import type { Note } from "../types/notes";
-import {
-    getNotes,
-    saveNotes,
-} from "../utils/storage";
+import { getNotes, saveNotes } from "../data/storage";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 // const INITIAL_NOTES: Note[] = [
@@ -33,16 +30,12 @@ import {
 // ];
 
 export const useNotes = () => {
-    const initialNotes = getNotes().length
-        ? getNotes()
-        : [];
-
     const [notes, setNotes] =
-        useState<Note[]>(initialNotes);
+        useState<Note[]>(() => getNotes());
 
     const [selectedNoteId, setSelectedNoteId] =
         useState<string>(() => {
-            return initialNotes[0]?.id ?? "";
+            return notes[0]?.id ?? "";
         });
 
     const createNote = () => {

@@ -1,4 +1,4 @@
-import { NotificationProvider } from "../../context/Notification/NotificationProvider";
+import { NotificationProvider } from "../../context/notifications/NotificationProvider";
 import { ThemeContextProvider } from "../../context/theme/ThemeContextProvider";
 import ThemeContextWrapper from "./ThemeContextWrapper";
 

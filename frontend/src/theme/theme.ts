@@ -2,6 +2,7 @@ import { createTheme } from "@mui/material/styles";
 
 import { lightColors, darkColors } from "./colors";
 import { typography } from "./typography";
+import { designTokens } from "./tokens";
 
 export const getTheme = (mode: "light" | "dark") => {
     const colors = mode === "light" ? lightColors : darkColors;
@@ -30,7 +31,7 @@ export const getTheme = (mode: "light" | "dark") => {
         typography,
 
         shape: {
-            borderRadius: 10,
+            borderRadius: designTokens.radius,
         },
 
         components: {
@@ -45,7 +46,7 @@ export const getTheme = (mode: "light" | "dark") => {
             MuiButton: {
                 styleOverrides: {
                     root: {
-                        borderRadius: 10,
+                        borderRadius: designTokens.radius,
                     },
                 },
             },
@@ -53,7 +54,7 @@ export const getTheme = (mode: "light" | "dark") => {
             MuiPaper: {
                 styleOverrides: {
                     root: {
-                        borderRadius: 10,
+                        borderRadius: designTokens.radius,
                     },
                 },
             },
@@ -61,7 +62,7 @@ export const getTheme = (mode: "light" | "dark") => {
             MuiCard: {
                 styleOverrides: {
                     root: {
-                        borderRadius: 10,
+                        borderRadius: designTokens.radius,
                     },
                 },
             },

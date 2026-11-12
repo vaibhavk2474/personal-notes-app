@@ -6,17 +6,17 @@ import Sidebar from "../../components/Sidebar";
 
 import { useNotes } from "../../hooks/useNotes";
 
-import useNotification from "../../context/Notification/useNotification";
+import useNotification from "../../../../context/notifications/useNotification";
 
-import MainLayout from "../../layouts/MainLayout";
-import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
-import useThemeContext from "../../context/theme/useThemeContext";
+import MainLayout from "../../../../shared/layouts/MainLayout";
+import { useKeyboardShortcuts } from "../../../../shared/hooks/useKeyboardShortcuts";
+import useThemeContext from "../../../../context/theme/useThemeContext";
 
 const Dashboard = () => {
 	const { notes, selectedNote, selectedNoteId, setSelectedNoteId, createNote, updateNote, deleteNote } = useNotes();
 	const { sidebarOpen, setSidebarOpen } = useThemeContext();
 
-	const { success, error } = useNotification();
+	const { success } = useNotification();
 
 	const [search, setSearch] = useState("");
 
@@ -31,7 +31,7 @@ const Dashboard = () => {
 	const handleDeleteNote = (id: string) => {
 		deleteNote(id);
 
-		error("Note deleted successfully");
+		success("Note deleted successfully");
 	};
 
 	useKeyboardShortcuts({

@@ -1,121 +1,51 @@
-# PersonalNotes
+# Personal Notes
 
-A modern note-taking application inspired by Notion, built with React, TypeScript, Node.js, Express, MongoDB, and Docker.
+A personal notes app built with React, TypeScript, Vite, and Material UI. The current version is a browser-only prototype: notes are saved in the browser's local storage. There is no backend or account system yet.
 
-## Overview
+## Current capabilities
 
-PersonalNotes is a full-stack application designed to help users create, organize, search, and manage personal notes efficiently. The project is being developed incrementally, starting with a simple CRUD notes application and evolving toward a Notion-inspired experience with advanced organization, rich text editing, authentication, and collaboration features.
+- Create, edit, select, search by title, and delete notes.
+- Save notes locally in the current browser.
+- Switch between light and dark themes.
+- Use a responsive sidebar, including a drawer on mobile.
+- Show in-app notifications and support keyboard shortcuts.
 
-## Tech Stack
+## Run locally
 
-### Frontend
+Requirements: Node.js 22 or newer and npm.
 
-- React
-- TypeScript
-- Vite
-- Material UI (MUI)
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-### Backend
+The development server prints its local URL. Other available commands are `npm run lint`, `npm run build`, and `npm run preview` (from `frontend/`). Docker Compose can start the frontend with `docker compose up` from the repository root after dependencies are available in the mounted `frontend` directory.
 
-- Node.js
-- Express.js
-- MongoDB
-
-### DevOps
-
-- Docker
-- Docker Compose
-- Git & GitHub
-
----
-
-## Current Features
-
-### Version 1 (In Progress)
-
-- Create Notes
-- Read Notes
-- Update Notes
-- Delete Notes
-- Search Notes
-- Responsive Layout
-- Dark Mode
-
----
-
-## Planned Features
-
-### Version 2
-
-- Authentication
-- User-specific Notes
-- Categories
-- Tags
-- Favorites
-- Trash Management
-
-### Version 3
-
-- Rich Text Editor
-- Notion-style Blocks
-- Image Uploads
-- AI-powered Note Assistance
-- Note Sharing & Collaboration
-
----
-
-## Project Structure
+## Repository map
 
 ```text
-PersonalNotes/
+.
+├── AGENTS.md                    # Shared instructions for AI coding tools
+├── CLAUDE.md                    # Claude Code entry point; points to AGENTS.md
+├── docs/
+│   ├── architecture.md          # Current structure and boundaries
+│   ├── ai-workflow.md            # Prompt and handoff patterns for AI-assisted work
+│   ├── product.md               # Product intent and current scope
+│   ├── roadmap.md               # Proposed next milestones
+│   └── decisions/               # Important choices and their reasons
 ├── frontend/
-├── backend/
-├── docker-compose.yml
-├── .gitignore
-└── README.md
+│   └── src/
+│       ├── app/                 # App entry and top-level providers
+│       ├── context/             # Shared theme and notification state
+│       ├── features/notes/      # Notes screens, UI, state, types, persistence
+│       ├── shared/              # Reusable layout and browser hooks
+│       └── theme/               # Central MUI palette, typography, tokens, and theme
+└── docker-compose.yml
 ```
 
----
+See [the architecture guide](docs/architecture.md) for boundaries and [the AI instructions](AGENTS.md) before making code changes.
 
-## Development Setup
+## Product direction
 
-### Start Application
-
-```bash
-docker compose up
-```
-
-### Stop Application
-
-```bash
-docker compose down
-```
-
----
-
-## Branch Strategy
-
-```text
-main
-├── feature/dashboard-layout
-├── feature/note-sidebar
-├── feature/note-editor
-├── feature/auth
-└── feature/search
-```
-
----
-
-## Goals
-
-- Build production-grade full-stack application
-- Follow industry-standard architecture
-- Practice Docker-based development workflow
-- Learn scalable frontend and backend patterns
-- Prepare for senior-level software engineering roles
-
----
-
-## Author
-
-Vaibhav Kumar
+The near-term goal is to make the single-user notes workflow dependable and easy to evolve. Authentication, a server API, database storage, rich text, and collaboration are ideas for later milestones, not current features. Keep future changes small and make product decisions explicit in the issue or task being implemented.

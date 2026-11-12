@@ -6,8 +6,8 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 import { sidebarStyles } from "./styles";
 import type { SidebarProps } from "./types";
-import useThemeContext from "../../context/theme/useThemeContext";
-import { useResponsive } from "../../hooks/useResponsive";
+import useThemeContext from "../../../../context/theme/useThemeContext";
+import { useResponsive } from "../../../../shared/hooks/useResponsive";
 
 const Sidebar = ({ notes, selectedNoteId, onSelectNote, search, onSearchChange, onCreateNote, onDeleteNote }: SidebarProps) => {
 	const { setSidebarOpen } = useThemeContext();

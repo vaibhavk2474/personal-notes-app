@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useThemeMode } from "../../hooks/useThemeMode";
+import { useThemeMode } from "../../context/theme/useThemeMode";
 import { getTheme } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 

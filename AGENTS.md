@@ -22,7 +22,7 @@ Read this file and `docs/architecture.md` before changing code. Read `docs/produ
 
 ## Project-specific facts
 
-- This repository currently has a Vite React frontend only. There is no `backend/` directory, API, database, authentication, or cloud sync.
+- This repository currently has a Vite React frontend only. There is no `backend/` directory, API, database, real authentication, or cloud sync. The sign-in screens use a clearly labeled local mock flow.
 - Notes currently persist in browser `localStorage` and are not shared between browsers or devices.
 - The app currently searches note titles, not note bodies.
 - See `docs/architecture.md` for the current source map and boundaries.

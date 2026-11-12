@@ -9,6 +9,7 @@ A personal notes app built with React, TypeScript, Vite, and Material UI. The cu
 - Switch between light and dark themes.
 - Use a responsive sidebar, including a drawer on mobile.
 - Show in-app notifications and support keyboard shortcuts.
+- Sign up, sign in, and sign out through a local demo flow (not real authentication).
 
 ## Run locally
 
@@ -44,7 +45,7 @@ The development server prints its local URL. Other available commands are `npm r
 └── docker-compose.yml
 ```
 
-See [the architecture guide](docs/architecture.md) for boundaries and [the AI instructions](AGENTS.md) before making code changes.
+The sign-in UI is a frontend prototype: demo account names/emails and sessions live in this browser, passwords are discarded, and passwords are not verified. Do not use it to protect real data. See [the architecture guide](docs/architecture.md) for boundaries and [the AI instructions](AGENTS.md) before making code changes.
 
 ## Product direction
 

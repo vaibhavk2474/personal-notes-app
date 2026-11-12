@@ -18,5 +18,6 @@ export const headerStyles: Record<string, SxProps<Theme>> = {
     right: {
         display: "flex",
         alignItems: "center",
+        gap: 1,
     },
 };

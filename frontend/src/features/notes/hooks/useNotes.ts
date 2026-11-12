@@ -1,37 +1,11 @@
 import { useEffect, useState } from "react";
 
 import type { Note } from "../types/notes";
-import { getNotes, saveNotes } from "../data/storage";
+import { getNotesForUser, saveNotes } from "../data/storage";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// const INITIAL_NOTES: Note[] = [
-//     {
-//         id: "1",
-//         title: "Getting Started",
-//         content: "Welcome to PersonalNotes.",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//     },
-//     {
-//         id: "2",
-//         title: "React Learning",
-//         content: "Learn React and TypeScript.",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//     },
-//     {
-//         id: "3",
-//         title: "Docker Notes",
-//         content:
-//             "Docker helps standardize development environments.",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//     },
-// ];
-
-export const useNotes = () => {
+export const useNotes = (userId: string) => {
     const [notes, setNotes] =
-        useState<Note[]>(() => getNotes());
+        useState<Note[]>(() => getNotesForUser(userId));
 
     const [selectedNoteId, setSelectedNoteId] =
         useState<string>(() => {
@@ -99,8 +73,8 @@ export const useNotes = () => {
     };
 
     useEffect(() => {
-        saveNotes(notes);
-    }, [notes]);
+        saveNotes(notes, userId);
+    }, [notes, userId]);
 
     const selectedNote =
         notes.find(

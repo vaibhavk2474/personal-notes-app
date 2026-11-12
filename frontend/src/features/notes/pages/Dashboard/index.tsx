@@ -11,9 +11,20 @@ import useNotification from "../../../../context/notifications/useNotification";
 import MainLayout from "../../../../shared/layouts/MainLayout";
 import { useKeyboardShortcuts } from "../../../../shared/hooks/useKeyboardShortcuts";
 import useThemeContext from "../../../../context/theme/useThemeContext";
+import { useAuth } from "../../../auth/context/useAuth";
 
 const Dashboard = () => {
-	const { notes, selectedNote, selectedNoteId, setSelectedNoteId, createNote, updateNote, deleteNote } = useNotes();
+	const { user } = useAuth();
+
+	if (!user) {
+		return null;
+	}
+
+	return <NotesDashboard userId={user.id} />;
+};
+
+const NotesDashboard = ({ userId }: { userId: string }) => {
+	const { notes, selectedNote, selectedNoteId, setSelectedNoteId, createNote, updateNote, deleteNote } = useNotes(userId);
 	const { sidebarOpen, setSidebarOpen } = useThemeContext();
 
 	const { success } = useNotification();

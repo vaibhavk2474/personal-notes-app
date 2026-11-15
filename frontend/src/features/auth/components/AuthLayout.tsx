@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Box, Paper, Stack, Typography } from "@mui/material";
-import NotesOutlinedIcon from "@mui/icons-material/NotesOutlined";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { Link as RouterLink } from "react-router-dom";
 
 interface AuthLayoutProps {
@@ -26,7 +26,7 @@ const AuthLayout = ({ title, description, footerText, footerLinkText, footerLink
 		<Stack spacing={3} sx={{ width: "100%", maxWidth: 440 }}>
 			<Stack direction="row" spacing={1.5} sx={{ alignItems: "center", justifyContent: "center" }}>
 				<Box sx={{ display: "grid", placeItems: "center", width: 42, height: 42, borderRadius: 2, bgcolor: "primary.main", color: "primary.contrastText" }}>
-					<NotesOutlinedIcon />
+					<MenuBookIcon />
 				</Box>
 				<Typography variant="h5" sx={{ fontWeight: 700 }}>
 					PersonalNotes

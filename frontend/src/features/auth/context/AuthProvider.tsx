@@ -1,26 +1,75 @@
-import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 
-import { mockAuthService } from "../data/mockAuthService";
+import { authApi } from "../data/authApi";
 import { AuthContext } from "./authContext";
-import type { AuthUser, SignUpInput } from "../types/auth";
+import type { AuthUser, SignInInput, SignUpInput } from "../types/auth";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-	const [user, setUser] = useState<AuthUser | null>(() => mockAuthService.getSession());
+	const [user, setUser] = useState<AuthUser | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
 
-	const signUp = useCallback((input: SignUpInput) => {
-		setUser(mockAuthService.signUp(input));
+	useEffect(() => {
+		let isCurrent = true;
+		authApi.getSession()
+			.then((sessionUser) => {
+				if (isCurrent) setUser(sessionUser);
+			})
+			.catch(() => {
+				if (isCurrent) setUser(null);
+			})
+			.finally(() => {
+				if (isCurrent) setIsLoading(false);
+			});
+
+		return () => {
+			isCurrent = false;
+		};
 	}, []);
 
-	const signIn = useCallback((email: string) => {
-		setUser(mockAuthService.signIn(email));
+	useEffect(() => {
+		if (!user) {
+			return;
+		}
+
+		let lastSessionCheck = Date.now();
+		let isCheckingSession = false;
+		const checkSessionOnActivity = () => {
+			const now = Date.now();
+			if (isCheckingSession || now - lastSessionCheck < 5 * 60 * 1000) {
+				return;
+			}
+
+			lastSessionCheck = now;
+			isCheckingSession = true;
+			authApi.getSession()
+				.then((sessionUser) => {
+					if (!sessionUser) setUser(null);
+				})
+				.catch(() => undefined)
+				.finally(() => {
+					isCheckingSession = false;
+				});
+		};
+
+		const activityEvents: Array<keyof WindowEventMap> = ["pointerdown", "keydown", "touchstart", "wheel"];
+		activityEvents.forEach((eventName) => window.addEventListener(eventName, checkSessionOnActivity, { passive: true }));
+		return () => activityEvents.forEach((eventName) => window.removeEventListener(eventName, checkSessionOnActivity));
+	}, [user]);
+
+	const signUp = useCallback(async (input: SignUpInput) => {
+		setUser(await authApi.signUp(input));
 	}, []);
 
-	const signOut = useCallback(() => {
-		mockAuthService.signOut();
+	const signIn = useCallback(async (input: SignInInput) => {
+		setUser(await authApi.signIn(input));
+	}, []);
+
+	const signOut = useCallback(async () => {
+		await authApi.signOut();
 		setUser(null);
 	}, []);
 
-	const value = useMemo(() => ({ user, signUp, signIn, signOut }), [user, signUp, signIn, signOut]);
+	const value = useMemo(() => ({ user, isLoading, signUp, signIn, signOut }), [user, isLoading, signUp, signIn, signOut]);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

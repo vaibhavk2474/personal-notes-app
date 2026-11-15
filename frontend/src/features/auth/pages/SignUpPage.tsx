@@ -15,7 +15,7 @@ const SignUpPage = () => {
 	const [error, setError] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setError("");
 
@@ -36,7 +36,7 @@ const SignUpPage = () => {
 
 		setIsSubmitting(true);
 		try {
-			signUp({ name, email });
+			await signUp({ name, email, password });
 			navigate("/", { replace: true });
 		} catch (submissionError) {
 			setError(submissionError instanceof Error ? submissionError.message : "Unable to create an account.");
@@ -53,10 +53,6 @@ const SignUpPage = () => {
 			footerLinkText="Sign in"
 			footerLinkTo="/sign-in"
 		>
-			<Alert severity="info" variant="outlined">
-				Demo flow only: your password is used for form validation, then discarded. No real account is created.
-			</Alert>
-
 			<Stack component="form" spacing={2} onSubmit={handleSubmit}>
 				{error && <Alert severity="error">{error}</Alert>}
 				<TextField

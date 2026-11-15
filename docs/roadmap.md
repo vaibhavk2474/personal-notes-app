@@ -2,22 +2,23 @@
 
 This is a proposed sequence, not a promise. Choose work based on user needs and keep each milestone small.
 
-## 1. Stabilize the current browser-only workflow
+## 1. Keep account access dependable
 
-- Correct feedback messages and action edge cases.
-- Define behavior for empty titles, deleting the selected note, and searching.
-- Handle storage read/write failures clearly and avoid losing edits.
-- Add focused tests for important note rules and regressions.
+- Finish exercising registration, login, logout, and server-side session expiry.
+- Add password recovery and email verification only when an email-delivery provider is chosen.
 
-## 2. Improve everyday usability
+## 2. Move notes to the account database
+
+- Build authenticated note CRUD endpoints with ownership checks on every query.
+- Connect the existing notes repository to the API.
+- Migrate browser notes safely and preserve a way to recover from a failed migration.
+- Add focused tests for ownership and data migration.
+
+## 3. Improve everyday usability
 
 - Decide whether search should include note content.
 - Add accessible labels, empty states, and keyboard behavior where useful.
 - Refine the editor experience based on actual usage.
-
-## 3. Decide whether remote accounts are needed
-
-Only if cross-device access or multiple users are a real requirement, design authentication, API, database, privacy, backups, and migration from local storage before implementation.
 
 ## 4. Add larger features deliberately
 

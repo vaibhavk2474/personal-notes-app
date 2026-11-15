@@ -1,52 +1,70 @@
 # Personal Notes
 
-A personal notes app built with React, TypeScript, Vite, and Material UI. The current version is a browser-only prototype: notes are saved in the browser's local storage. There is no backend or account system yet.
+A personal notes app built with React, TypeScript, Vite, Material UI, Node.js, Express, and MongoDB. Users can create accounts and sign in. Notes are still stored in the current browser; database-backed note syncing is the next milestone.
 
 ## Current capabilities
 
-- Create, edit, select, search by title, and delete notes.
-- Save notes locally in the current browser.
-- Switch between light and dark themes.
-- Use a responsive sidebar, including a drawer on mobile.
-- Show in-app notifications and support keyboard shortcuts.
-- Sign up, sign in, and sign out through a local demo flow (not real authentication).
+- Sign up, sign in, restore a session after refresh, and sign out.
+- Store account records and server sessions in MongoDB.
+- Hash passwords with Argon2id; the original password is never stored.
+- Keep notes in browser storage, separated by account ID.
+- Create, read, edit, delete, and search notes by title.
+- Use a responsive layout and light/dark themes.
 
-## Run locally
+Account recovery, email verification, and remote note sync are not implemented yet.
 
-Requirements: Node.js 22 or newer and npm.
+## Run the full app locally
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+Requirements: Docker Desktop with Compose. The API and frontend images install their own Node dependencies.
 
-The development server prints its local URL. Other available commands are `npm run lint`, `npm run build`, and `npm run preview` (from `frontend/`). Docker Compose can start the frontend with `docker compose up` from the repository root after dependencies are available in the mounted `frontend` directory.
+1. Copy the backend environment template:
+
+   ```powershell
+   Copy-Item backend/.env.example backend/.env
+   ```
+
+2. Generate a local session secret:
+
+   ```powershell
+   node -e "console.log(require('node:crypto').randomBytes(48).toString('hex'))"
+   ```
+
+   Open `backend/.env` and replace the `SESSION_SECRET` placeholder with that value. Do not commit `backend/.env`; Git ignores it.
+
+3. Start the frontend, API, and MongoDB:
+
+   ```powershell
+   docker compose up --build
+   ```
+
+4. Open `http://localhost:5173`, create an account, sign out, and sign back in.
+
+Stop the services with `docker compose down`. The MongoDB named volume keeps data between runs. `docker compose down -v` deletes that local database.
+
+For frontend-only lint and build commands, run `npm run lint` or `npm run build` from `frontend/`. For backend compilation, run `npm run build` from `backend/`.
+
+## Session behavior
+
+The browser receives an HttpOnly session cookie; the session itself is stored in MongoDB. Sessions expire after 7 days without an API request or after 30 days from sign-in, whichever comes first. Signing out invalidates the server session.
 
 ## Repository map
 
 ```text
 .
-├── AGENTS.md                    # Shared instructions for AI coding tools
-├── CLAUDE.md                    # Claude Code entry point; points to AGENTS.md
-├── docs/
-│   ├── architecture.md          # Current structure and boundaries
-│   ├── ai-workflow.md            # Prompt and handoff patterns for AI-assisted work
-│   ├── product.md               # Product intent and current scope
-│   ├── roadmap.md               # Proposed next milestones
-│   └── decisions/               # Important choices and their reasons
-├── frontend/
-│   └── src/
-│       ├── app/                 # App entry and top-level providers
-│       ├── context/             # Shared theme and notification state
-│       ├── features/notes/      # Notes screens, UI, state, types, persistence
-│       ├── shared/              # Reusable layout and browser hooks
-│       └── theme/               # Central MUI palette, typography, tokens, and theme
-└── docker-compose.yml
+├── AGENTS.md
+├── backend/
+│   ├── src/auth/          # Registration, login, session checks, logout
+│   ├── src/users/         # MongoDB user model
+│   ├── .env.example       # Local backend configuration template
+│   └── Dockerfile
+├── docs/                  # Product, architecture, roadmap, AI workflow
+├── frontend/src/
+│   ├── app/               # App composition and providers
+│   ├── features/auth/     # Auth screens, API client, context, and route guards
+│   ├── features/notes/    # Notes UI, state, and browser persistence
+│   ├── shared/            # Reusable layout and hooks
+│   └── theme/             # Palette, typography, and design tokens
+└── docker-compose.yml     # Frontend, API, and local MongoDB
 ```
 
-The sign-in UI is a frontend prototype: demo account names/emails and sessions live in this browser, passwords are discarded, and passwords are not verified. Do not use it to protect real data. See [the architecture guide](docs/architecture.md) for boundaries and [the AI instructions](AGENTS.md) before making code changes.
-
-## Product direction
-
-The near-term goal is to make the single-user notes workflow dependable and easy to evolve. Authentication, a server API, database storage, rich text, and collaboration are ideas for later milestones, not current features. Keep future changes small and make product decisions explicit in the issue or task being implemented.
+See [architecture](docs/architecture.md), [product context](docs/product.md), and [AI workflow](docs/ai-workflow.md) before making broad changes.

@@ -18,11 +18,12 @@ Read this file and `docs/architecture.md` before changing code. Read `docs/produ
 
 - Review the diff for unrelated changes and accidental file moves.
 - For frontend source changes, run `npm run lint` and `npm run build` from `frontend/` when the environment supports it; report commands that could not be run. Do not claim checks passed unless they were run.
+- For backend changes, run `npm run build` from `backend/` when the environment supports it.
 - Summarize behavior changes, files or areas touched, checks run, and known limitations.
 
 ## Project-specific facts
 
-- This repository currently has a Vite React frontend only. There is no `backend/` directory, API, database, real authentication, or cloud sync. The sign-in screens use a clearly labeled local mock flow.
-- Notes currently persist in browser `localStorage` and are not shared between browsers or devices.
+- The app has a Vite React frontend and an Express/MongoDB backend. Authentication is server-backed; notes still persist in browser `localStorage` and are not shared between browsers or devices.
+- Backend secrets belong in the ignored `backend/.env`, never in frontend `VITE_` variables.
 - The app currently searches note titles, not note bodies.
 - See `docs/architecture.md` for the current source map and boundaries.

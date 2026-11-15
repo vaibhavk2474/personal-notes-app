@@ -13,13 +13,13 @@ const SignInPage = () => {
 	const [error, setError] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setError("");
 		setIsSubmitting(true);
 
 		try {
-			signIn(email);
+			await signIn({ email, password });
 			navigate("/", { replace: true });
 		} catch (submissionError) {
 			setError(submissionError instanceof Error ? submissionError.message : "Unable to sign in.");
@@ -36,10 +36,6 @@ const SignInPage = () => {
 			footerLinkText="Create an account"
 			footerLinkTo="/sign-up"
 		>
-			<Alert severity="info" variant="outlined">
-				Demo flow only: use any non-empty password for a demo account. Passwords are not checked or saved. Real sign-in will be connected to the backend later.
-			</Alert>
-
 			<Stack component="form" spacing={2} onSubmit={handleSubmit}>
 				{error && <Alert severity="error">{error}</Alert>}
 				<TextField

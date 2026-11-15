@@ -6,7 +6,7 @@ Personal Notes is a small personal note-taking app. The first useful product is 
 
 ## Current user workflow
 
-1. Create a local demo account or sign in to one already created in this browser.
+1. Create an account or sign in with an existing account.
 2. Open the notes app and see notes stored in this browser.
 3. Create a note or select one in the sidebar.
 4. Edit its title and plain-text content; changes are saved to browser local storage.
@@ -14,9 +14,10 @@ Personal Notes is a small personal note-taking app. The first useful product is 
 
 ## Current scope and constraints
 
-- There are no real user accounts, server persistence, sync, sharing, or collaboration.
-- The sign-up/sign-in screens are a UI prototype. They store a demo name/email/session in this browser, discard passwords, and do not verify passwords or provide security.
-- Demo notes are separated by local demo account. Notes from the previous browser-only version are assigned to the first demo account that opens the dashboard.
+- Account records and sessions are stored in MongoDB. The API verifies passwords and never stores plaintext passwords.
+- Notes still live in browser localStorage; they do not sync across devices yet.
+- Account recovery, email verification, and multi-factor authentication are not implemented.
+- Notes are separated in local storage by account ID. Notes from the previous browser-only version are assigned to the first account that opens the dashboard.
 - Notes are plain text; there is no rich-text document model.
 - Data belongs to the browser profile that stored it. Clearing browser storage can remove it.
 - The interface is responsive and supports light and dark modes.

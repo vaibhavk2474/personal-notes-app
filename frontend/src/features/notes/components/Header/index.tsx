@@ -14,14 +14,25 @@ import { useResponsive } from "../../../../shared/hooks/useResponsive";
 import { headerStyles } from "./styles";
 import useThemeContext from "../../../../context/theme/useThemeContext";
 import { useAuth } from "../../../auth/context/useAuth";
+import useNotification from "../../../../context/notifications/useNotification";
 
 const Header = () => {
 	const { mode, toggleTheme } = useThemeMode();
 
 	const { setSidebarOpen } = useThemeContext();
 	const { user, signOut } = useAuth();
+	const { error, success } = useNotification();
 
 	const { isMobile } = useResponsive();
+
+	const handleSignOut = async () => {
+		try {
+			await signOut();
+			success("You have signed out.");
+		} catch {
+			error("Could not sign out. Check your connection and try again.");
+		}
+	};
 
 	return (
 		<Box sx={headerStyles.container}>
@@ -43,7 +54,7 @@ const Header = () => {
 				<Typography variant="body2" color="text.secondary" noWrap sx={{ maxWidth: { xs: 100, sm: 180 } }}>
 					{user?.email}
 				</Typography>
-				<Button color="inherit" size="small" startIcon={<LogoutIcon />} onClick={signOut}>
+				<Button color="inherit" size="small" startIcon={<LogoutIcon />} onClick={handleSignOut}>
 					Sign out
 				</Button>
 				<IconButton onClick={toggleTheme}>{mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}</IconButton>

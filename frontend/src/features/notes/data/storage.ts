@@ -1,6 +1,8 @@
 import type { Note } from "../types/notes";
 
 const LEGACY_NOTES_STORAGE_KEY = "personal-notes";
+const LEGACY_DEMO_SESSION_KEY = "personal-notes-demo-session";
+const LEGACY_DEMO_ACCOUNTS_KEY = "personal-notes-demo-accounts";
 const getNotesStorageKey = (userId: string) => `${LEGACY_NOTES_STORAGE_KEY}:${userId}`;
 
 const isNote = (value: unknown): value is Note => {
@@ -34,20 +36,47 @@ export const getNotesForUser = (userId: string): Note[] => {
         return parseNotes(storedNotes) ?? [];
     }
 
-    // Assign existing browser-only notes to the first demo account that opens them.
-    const legacyNotes = localStorage.getItem(LEGACY_NOTES_STORAGE_KEY);
-    if (!legacyNotes) {
-        return [];
+    // Preserve notes from both the original local-only flow and the previous demo-auth flow.
+    const legacyDemoUserId = getLegacyDemoUserId();
+    const legacyKeys = [
+        legacyDemoUserId ? getNotesStorageKey(legacyDemoUserId) : null,
+        LEGACY_NOTES_STORAGE_KEY,
+    ].filter((key): key is string => key !== null);
+
+    for (const legacyKey of legacyKeys) {
+        const legacyNotes = localStorage.getItem(legacyKey);
+        if (!legacyNotes) {
+            continue;
+        }
+
+        const notes = parseNotes(legacyNotes);
+        if (!notes) {
+            continue;
+        }
+
+        localStorage.setItem(storageKey, JSON.stringify(notes));
+        localStorage.removeItem(legacyKey);
+        localStorage.removeItem(LEGACY_DEMO_SESSION_KEY);
+        localStorage.removeItem(LEGACY_DEMO_ACCOUNTS_KEY);
+        return notes;
     }
 
-    const notes = parseNotes(legacyNotes);
-    if (!notes) {
-        return [];
-    }
+    return [];
+};
 
-    localStorage.setItem(storageKey, JSON.stringify(notes));
-    localStorage.removeItem(LEGACY_NOTES_STORAGE_KEY);
-    return notes;
+const getLegacyDemoUserId = (): string | null => {
+    try {
+        const storedSession = localStorage.getItem(LEGACY_DEMO_SESSION_KEY);
+        const parsed: unknown = storedSession ? JSON.parse(storedSession) : null;
+        if (!parsed || typeof parsed !== "object") {
+            return null;
+        }
+
+        const userId = (parsed as Record<string, unknown>).id;
+        return typeof userId === "string" ? userId : null;
+    } catch {
+        return null;
+    }
 };
 
 const parseNotes = (storedNotes: string): Note[] | null => {

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { Alert, Button, Stack, TextField } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Alert, Button, Link, Stack, TextField } from "@mui/material";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import AuthLayout from "../components/AuthLayout";
 import { useAuth } from "../context/useAuth";
@@ -56,6 +56,9 @@ const SignInPage = () => {
 					value={password}
 					onChange={(event) => setPassword(event.target.value)}
 				/>
+				<Link component={RouterLink} to="/forgot-password" variant="body2" sx={{ alignSelf: "flex-end" }}>
+					Forgot password?
+				</Link>
 				<Button type="submit" variant="contained" size="large" disabled={isSubmitting}>
 					{isSubmitting ? "Signing in…" : "Sign in"}
 				</Button>

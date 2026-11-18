@@ -69,7 +69,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		setUser(null);
 	}, []);
 
-	const value = useMemo(() => ({ user, isLoading, signUp, signIn, signOut }), [user, isLoading, signUp, signIn, signOut]);
+	const refreshSession = useCallback(async () => {
+		setUser(await authApi.getSession());
+	}, []);
+
+	const value = useMemo(
+		() => ({ user, isLoading, signUp, signIn, signOut, refreshSession }),
+		[user, isLoading, signUp, signIn, signOut, refreshSession],
+	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -1,4 +1,4 @@
-import type { AuthUser, SignInInput, SignUpInput } from "../types/auth";
+import type { AuthUser, ResetPasswordInput, SignInInput, SignUpInput } from "../types/auth";
 
 class ApiError extends Error {
 	readonly status: number;
@@ -44,6 +44,26 @@ const readErrorMessage = async (response: Response): Promise<string> => {
 };
 
 export const authApi = {
+	async requestPasswordReset(email: string): Promise<void> {
+		const response = await request("/api/auth/forgot-password", {
+			method: "POST",
+			body: JSON.stringify({ email }),
+		});
+		if (!response.ok) {
+			throw new ApiError(await readErrorMessage(response), response.status);
+		}
+	},
+
+	async resetPassword(input: ResetPasswordInput): Promise<void> {
+		const response = await request("/api/auth/reset-password", {
+			method: "POST",
+			body: JSON.stringify(input),
+		});
+		if (!response.ok) {
+			throw new ApiError(await readErrorMessage(response), response.status);
+		}
+	},
+
 	async getSession(): Promise<AuthUser | null> {
 		const response = await request("/api/auth/me");
 		if (response.status === 401) {

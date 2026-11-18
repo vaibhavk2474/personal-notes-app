@@ -1,6 +1,7 @@
 import type { RequestHandler, Response } from "express";
 
 import { env } from "../config/env.js";
+import { User } from "../users/user.model.js";
 
 export const IDLE_SESSION_MS = 7 * 24 * 60 * 60 * 1000;
 export const ABSOLUTE_SESSION_MS = 30 * 24 * 60 * 60 * 1000;
@@ -15,7 +16,7 @@ export const clearSessionCookie = (response: Response) => {
 };
 
 export const requireAuth: RequestHandler = async (request, response, next) => {
-	const { userId, authenticatedAt } = request.session;
+	const { userId, authenticatedAt, sessionVersion } = request.session;
 	if (!userId || !authenticatedAt) {
 		response.status(401).json({ message: "Sign in is required." });
 		return;
@@ -25,6 +26,14 @@ export const requireAuth: RequestHandler = async (request, response, next) => {
 		await new Promise<void>((resolve) => request.session.destroy(() => resolve()));
 		clearSessionCookie(response);
 		response.status(401).json({ message: "Your session expired. Sign in again." });
+		return;
+	}
+
+	const user = await User.findById(userId).select("sessionVersion");
+	if (!user || (sessionVersion ?? 0) !== (user.sessionVersion ?? 0)) {
+		await new Promise<void>((resolve) => request.session.destroy(() => resolve()));
+		clearSessionCookie(response);
+		response.status(401).json({ message: "Your session is no longer valid. Sign in again." });
 		return;
 	}
 

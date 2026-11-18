@@ -2,10 +2,11 @@
 
 This is a proposed sequence, not a promise. Choose work based on user needs and keep each milestone small.
 
-## 1. Keep account access dependable
+## 1. Account access and password recovery
 
-- Finish exercising registration, login, logout, and server-side session expiry.
-- Add password recovery and email verification only when an email-delivery provider is chosen.
+- Implemented: registration, sign-in, sign-out, session restore/expiry, and password recovery.
+- Local reset email is captured by Mailpit; production SMTP settings are configurable, but a production email provider still needs to be chosen and configured before deployment.
+- Email verification remains a separate future feature.
 
 ## 2. Move notes to the account database
 

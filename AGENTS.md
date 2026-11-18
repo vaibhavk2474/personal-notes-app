@@ -23,7 +23,9 @@ Read this file and `docs/architecture.md` before changing code. Read `docs/produ
 
 ## Project-specific facts
 
-- The app has a Vite React frontend and an Express/MongoDB backend. Authentication is server-backed; notes still persist in browser `localStorage` and are not shared between browsers or devices.
+- The app has a Vite React frontend and an Express/MongoDB backend. Authentication uses server-side sessions stored in MongoDB; the browser receives an HttpOnly cookie.
+- Sign-up, sign-in, sign-out, session restore, forgot-password requests, and password reset are implemented. Development reset emails are captured by Mailpit in Docker Compose. Reset tokens are stored as hashes and expire after 30 minutes; resetting a password increments the account's session version so older sessions are rejected.
+- Notes support create, read, update, and delete in the UI, but currently persist in browser `localStorage` under an account-specific key. Notes are not shared between browsers or devices; authenticated MongoDB-backed note storage is the next major feature.
+- Note search currently matches titles only.
 - Backend secrets belong in the ignored `backend/.env`, never in frontend `VITE_` variables.
-- The app currently searches note titles, not note bodies.
 - See `docs/architecture.md` for the current source map and boundaries.

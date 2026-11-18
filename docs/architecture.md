@@ -15,10 +15,9 @@ This describes the repository as it exists today. Update it when boundaries or d
 
 - `frontend/src/app/`: application composition and top-level providers.
 - `frontend/src/features/auth/`: sign-up, sign-in, forgot-password, and reset-password screens; route guards; auth context; and the API client. UI components do not access session storage directly.
-- `backend/src/auth/`: account registration, login, session validation, logout, and password-reset endpoints. Reset tokens are random, stored as hashes, expire after 30 minutes, and are consumed once.
-- `backend/src/email/`: SMTP email delivery through Nodemailer; Docker Compose routes development mail to Mailpit.
-- `backend/src/users/`: MongoDB account schema, including the password hash and session version. The password hash is excluded from ordinary model queries.
-- `backend/src/config/`: validated runtime configuration. Secrets are supplied through the ignored `backend/.env` file.
+- `backend/src/modules/auth/`: the authentication feature, organized by responsibility. `auth.routes.ts` maps endpoints and rate limits, `auth.controller.ts` handles HTTP input/output and sessions, `auth.service.ts` holds authentication and password-reset rules, and `auth.repository.ts` owns persistence queries. Feature models live in `models/`; the reset-email SMTP adapter lives in `email/`. Reset tokens are random, stored as hashes, expire after 30 minutes, and are consumed once.
+- `backend/src/config/` and `backend/src/db/`: shared runtime configuration and database connection setup. `backend/src/types/` contains Express session type extensions.
+- Secrets are supplied through the ignored `backend/.env` file.
 - `frontend/src/features/notes/`: notes dashboard, editor, sidebar, notes state, note type, local persistence, and date formatting.
 - `frontend/src/shared/`: reusable layout and general responsive/keyboard hooks.
 - `frontend/src/context/`: shared theme mode/sidebar state and notification state.

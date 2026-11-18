@@ -55,9 +55,9 @@ The browser receives an HttpOnly session cookie; the session itself is stored in
 .
 ├── AGENTS.md
 ├── backend/
-│   ├── src/auth/          # Registration, login, sessions, and password recovery
-│   ├── src/email/         # SMTP email delivery
-│   ├── src/users/         # MongoDB user model
+│   ├── src/modules/auth/  # Auth routes, controller, service, repository, models, email
+│   ├── src/config/        # Validated runtime configuration
+│   ├── src/db/            # MongoDB connection
 │   ├── .env.example       # Local backend configuration template
 │   └── Dockerfile
 ├── docs/                  # Product, architecture, roadmap, AI workflow

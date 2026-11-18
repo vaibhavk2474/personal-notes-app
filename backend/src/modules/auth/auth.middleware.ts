@@ -1,7 +1,7 @@
 import type { RequestHandler, Response } from "express";
 
-import { env } from "../config/env.js";
-import { User } from "../users/user.model.js";
+import { env } from "../../config/env.js";
+import { authRepository } from "./auth.repository.js";
 
 export const IDLE_SESSION_MS = 7 * 24 * 60 * 60 * 1000;
 export const ABSOLUTE_SESSION_MS = 30 * 24 * 60 * 60 * 1000;
@@ -29,7 +29,7 @@ export const requireAuth: RequestHandler = async (request, response, next) => {
 		return;
 	}
 
-	const user = await User.findById(userId).select("sessionVersion");
+	const user = await authRepository.findSessionVersion(userId);
 	if (!user || (sessionVersion ?? 0) !== (user.sessionVersion ?? 0)) {
 		await new Promise<void>((resolve) => request.session.destroy(() => resolve()));
 		clearSessionCookie(response);
@@ -45,6 +45,5 @@ export const requireSameOrigin: RequestHandler = (request, response, next) => {
 		response.status(403).json({ message: "Request origin is not allowed." });
 		return;
 	}
-
 	next();
 };

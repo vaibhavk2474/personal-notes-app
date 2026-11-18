@@ -4,8 +4,8 @@ import MongoStore from "connect-mongo";
 import helmet from "helmet";
 
 import { env } from "./config/env.js";
-import { IDLE_SESSION_MS } from "./auth/auth.middleware.js";
-import authRouter from "./auth/auth.routes.js";
+import { IDLE_SESSION_MS } from "./modules/auth/auth.middleware.js";
+import authRouter from "./modules/auth/auth.routes.js";
 
 const app = express();
 
